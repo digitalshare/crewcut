@@ -1,4 +1,4 @@
-# 🎬 Greenroom: an AI film crew that lives in your Teamily chat
+# 🎬 Crewcut: an AI film crew that lives in your Teamily chat
 
 Pitch a one-line idea in Teamily. A crew of agents writes it, casts it, storyboards it and builds the set in 3D. You approve or redo frames right in the chat. Then the crew shoots, scores and cuts a finished short film.
 
@@ -11,12 +11,12 @@ Pitch a one-line idea in Teamily. A crew of agents writes it, casts it, storyboa
 | 🖼️ Storyboard | character sheet → consistent per-shot frames (reference-image conditioned) | `google:nano-banana@2.1` |
 | 🏗️ Set Designer | props → product shots → **GLB 3D models** + LLM layout → three.js set | `tencent:hunyuan-3d@3.1-rapid` (fallback Rodin Gen-2, Tripo 3.1) |
 | 🎥 Cinematographer | approved frame → 5s clip, shots in parallel | `klingai:kling-video@4.0-flash` |
-| 🎧 Sound | narration + instrumental score | `bytedance:seed-audio@1.0` |
+| 🎧 Sound | narration + instrumental score | `bytedance:seed-audio@1.0` (VO), `runware:ace-step@v1.5-turbo` (score) |
 | ✂️ Editor | ffmpeg: crossfades, fades, VO over ducked music → `final.mp4` | local ffmpeg |
 | 🎬 Director | Claude Code running in this folder through the **Teamily local runtime**; talks to humans and drives `gr` | (your Claude Code) |
 
 ```
-Teamily chat ──► Teamily Swarm ──► `teamily daemon` (this Mac) ──► Claude Code (cwd = greenroom/, reads CLAUDE.md)
+Teamily chat ──► Teamily Swarm ──► `teamily daemon` (this Mac) ──► Claude Code (cwd = crewcut/, reads CLAUDE.md)
                                                                         │  npm run gr -- pitch|redo|shoot
                                                                         ▼
                                               Runware API (LLM · image · video · audio · 3D)  +  ffmpeg
@@ -32,7 +32,7 @@ npm run web                     # board on http://localhost:4321
 npm run tunnel                  # copy the https://*.trycloudflare.com URL into .env as GR_PUBLIC_URL
 
 # Connect to Teamily (TEAMILY_API_KEY = pk_*:sk_* Swarm key)
-cd greenroom && TEAMILY_PROVIDERS=claude teamily daemon start --foreground
+cd crewcut && TEAMILY_PROVIDERS=claude teamily daemon start --foreground
 # In the Teamily app, create or choose an agent running on this device (Claude). DM it or @-mention it in a group.
 ```
 

@@ -34,7 +34,7 @@ createServer(async (req, res) => {
   } catch (e) {
     send(res, 500, String(e));
   }
-}).listen(PORT, () => console.log(`Greenroom web on http://localhost:${PORT}`));
+}).listen(PORT, () => console.log(`Crewcut web on http://localhost:${PORT}`));
 
 function send(res: any, code: number, body: string, type = "text/plain") {
   res.writeHead(code, { "Content-Type": type + "; charset=utf-8", "Access-Control-Allow-Origin": "*" });
@@ -80,17 +80,17 @@ a{color:var(--accent)}h1,h2{font-family:"Fraunces",Georgia,serif;font-weight:600
 `;
 const FONTS = `<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;600&display=swap" rel="stylesheet">`;
 
-const INDEX_HTML = `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Greenroom</title>${FONTS}<style>${STYLE}</style></head>
-<body><div class="wrap"><div class="top"><div><div class="brand">Greenroom</div><h1>Productions</h1></div></div><div id="list" class="shots"></div></div>
+const INDEX_HTML = `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Crewcut</title>${FONTS}<style>${STYLE}</style></head>
+<body><div class="wrap"><div class="top"><div><div class="brand">Crewcut</div><h1>Productions</h1></div></div><div id="list" class="shots"></div></div>
 <script>
 fetch('/api').then(r=>r.json()).then(async ids=>{const el=document.getElementById('list');
 for(const id of ids){const p=await fetch('/api/'+id).then(r=>r.json());const img=p.script?.shots?.[0]?.frameURL;
 el.insertAdjacentHTML('beforeend','<a class="card shot" style="text-decoration:none;color:inherit" href="/p/'+id+'">'+(img?'<img src="'+img+'">':'<div class="ph">writing…</div>')+'<p><b>'+(p.script?.title||p.pitch)+'</b><br>'+p.stage+'</p></a>')}});
 </script></body></html>`;
 
-const BOARD_HTML = (id: string) => `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Greenroom Board</title>${FONTS}<style>${STYLE}</style></head>
+const BOARD_HTML = (id: string) => `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Crewcut Board</title>${FONTS}<style>${STYLE}</style></head>
 <body><div class="wrap">
-<div class="top"><div><div class="brand">Greenroom · Production board</div><h1 id="title">…</h1><div id="logline" style="color:var(--muted)"></div><div class="stages" id="stages"></div></div>
+<div class="top"><div><div class="brand">Crewcut · Production board</div><h1 id="title">…</h1><div id="logline" style="color:var(--muted)"></div><div class="stages" id="stages"></div></div>
 <div><a href="/set/${id}">Open 3D set →</a></div></div>
 <div class="grid"><div>
 <div class="card final" id="final" style="display:none;margin-bottom:20px"><h2 style="margin-bottom:10px">Final cut</h2><video id="finalv" controls playsinline></video></div>
@@ -110,11 +110,11 @@ if(p.finalPath){const f=document.getElementById('final');if(f.style.display==='n
 tick();setInterval(tick,2000);
 </script></body></html>`;
 
-const SET_HTML = (id: string) => `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Greenroom Set</title>${FONTS}<style>${STYLE}
+const SET_HTML = (id: string) => `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Crewcut Set</title>${FONTS}<style>${STYLE}
 html,body{height:100%}#c{position:fixed;inset:0}.hud{position:fixed;left:16px;top:16px;right:16px;pointer-events:none}.hud .card{display:inline-block;pointer-events:auto;max-width:420px;background:color-mix(in srgb,var(--panel) 88%,transparent)}
 .hud ul{margin:8px 0 0;padding-left:18px;font-size:13px;color:var(--muted)}</style>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script></head>
-<body><canvas id="c"></canvas><div class="hud"><div class="card"><div class="brand">Greenroom · 3D set</div><h2 id="t">Loading set…</h2><div id="loc" style="font-size:13px;color:var(--muted)"></div><ul id="props"></ul><div style="font-size:12px;color:var(--muted);margin-top:8px">Drag to orbit · scroll to zoom · <a href="/p/${id}" style="pointer-events:auto">board</a></div></div></div>
+<body><canvas id="c"></canvas><div class="hud"><div class="card"><div class="brand">Crewcut · 3D set</div><h2 id="t">Loading set…</h2><div id="loc" style="font-size:13px;color:var(--muted)"></div><ul id="props"></ul><div style="font-size:12px;color:var(--muted);margin-top:8px">Drag to orbit · scroll to zoom · <a href="/p/${id}" style="pointer-events:auto">board</a></div></div></div>
 <script type="module">
 import * as THREE from 'three';import {OrbitControls} from 'three/addons/controls/OrbitControls.js';import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
 const canvas=document.getElementById('c');const r=new THREE.WebGLRenderer({canvas,antialias:true});r.setPixelRatio(devicePixelRatio);r.toneMapping=THREE.ACESFilmicToneMapping;r.shadowMap.enabled=true;
