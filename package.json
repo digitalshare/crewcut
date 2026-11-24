@@ -1,0 +1,24 @@
+{
+  "name": "greenroom",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "gr": "tsx src/gr.ts",
+    "cli": "tsx src/cli.ts",
+    "web": "tsx src/web.ts",
+    "tunnel": "cloudflared tunnel --url http://localhost:4321",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@openim/client-sdk": "^3.8.3-hotfix.0",
+    "@runware/sdk": "^1.10.0",
+    "dotenv": "^18.0.10",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.7",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
