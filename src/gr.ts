@@ -6,6 +6,8 @@
 //   gr set <id>                     → (re)build the 3D set only
 import "dotenv/config";
 import { readdir } from "node:fs/promises";
+import { spawn } from "node:child_process";
+import { fileURLToPath } from "node:url";
 import { preProduction, production, redo } from "./pipeline.js";
 import { setDesigner, formatScript } from "./agents.js";
 import { load, ROOT, type Production } from "./production.js";
@@ -40,12 +42,16 @@ function summary(p: Production) {
 
 switch (cmd) {
   case "pitch": {
-    const { p, set } = await preProduction(args.join(" "));
-    // Give the 3D set a head start but don't block the storyboard review on it.
-    await Promise.race([set, new Promise((r) => setTimeout(r, 1000))]);
+    // Storyboard in this process; the 3D set builds in a detached background process
+    // so the chat agent gets the frames back without waiting ~2 min for the props.
+    const { p } = await preProduction(args.join(" "), undefined, { withSet: false });
+    const child = spawn(process.execPath, [...process.execArgv, fileURLToPath(import.meta.url), "set", p.id], {
+      detached: true, stdio: "ignore", cwd: process.cwd(), env: process.env,
+    });
+    child.unref();
     console.log("\n" + summary(p));
-    console.log(`\nNEXT: show the frames to the humans; then "gr redo ${p.id} <shot> <note>" or "gr shoot ${p.id}".`);
-    await set; // keep process alive until props finish so the set fills in
+    console.log(`\n3D set is building in the background (~2 min) — it fills in live at the 3D SET link.`);
+    console.log(`NEXT: show the frames to the humans; then "./gr redo ${p.id} <shot> <note>" or "./gr shoot ${p.id}".`);
     break;
   }
   case "redo": {

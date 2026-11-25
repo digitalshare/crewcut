@@ -17,7 +17,7 @@ Pitch a one-line idea in Teamily. A crew of agents writes it, casts it, storyboa
 
 ```
 Teamily chat ──► Teamily Swarm ──► `teamily daemon` (this Mac) ──► Claude Code (cwd = crewcut/, reads CLAUDE.md)
-                                                                        │  npm run gr -- pitch|redo|shoot
+                                                                        │  ./gr pitch|redo|shoot
                                                                         ▼
                                               Runware API (LLM · image · video · audio · 3D)  +  ffmpeg
                                                                         │
@@ -32,7 +32,7 @@ npm run web                     # board on http://localhost:4321
 npm run tunnel                  # copy the https://*.trycloudflare.com URL into .env as GR_PUBLIC_URL
 
 # Connect to Teamily (TEAMILY_API_KEY = pk_*:sk_* Swarm key)
-cd crewcut && TEAMILY_PROVIDERS=claude teamily daemon start --foreground
+cd crewcut && TEAMILY_PROVIDERS=claude TEAMILY_CLAUDE_ARGS='--allowedTools=Bash(./gr:*)' teamily daemon start --foreground
 # In the Teamily app, create or choose an agent running on this device (Claude). DM it or @-mention it in a group.
 ```
 

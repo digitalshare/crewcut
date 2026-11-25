@@ -5,12 +5,14 @@ import { CREW, writer, storyboard, setDesigner, camera, sound, editor, frame } f
 const SHOTS = Number(process.env.GR_SHOTS ?? 4);
 
 /** Phase 1: pitch → script → (3D set in background) → storyboard frames. Ends in stage "review". */
-export async function preProduction(pitch: string, chat?: Production["chat"]) {
+export async function preProduction(pitch: string, chat?: Production["chat"], opts: { withSet?: boolean } = {}) {
   const p = await create(pitch, chat);
   await log(p, CREW.director, `New production: "${pitch}". Crew, let's go.`);
   try {
     await writer(p, SHOTS);
-    const set = setDesigner(p).catch((e) => log(p, CREW.setdesigner, `Set build failed: ${e.message}`));
+    const set = opts.withSet === false
+      ? Promise.resolve()
+      : setDesigner(p).catch((e) => log(p, CREW.setdesigner, `Set build failed: ${e.message}`));
     await storyboard(p);
     return { p, set };
   } catch (e) {

@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm run -s gr -- *)",
+      "Bash(npm run -s gr:*)",
+      "Bash(npm run gr:*)",
+
+  "Bash(npm run -s gr -- *)",
       "Bash(npm run gr -- *)"
     ]
   }
