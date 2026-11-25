@@ -32,8 +32,10 @@ npm run web                     # board on http://localhost:4321
 npm run tunnel                  # copy the https://*.trycloudflare.com URL into .env as GR_PUBLIC_URL
 
 # Connect to Teamily (TEAMILY_API_KEY = pk_*:sk_* Swarm key)
-cd crewcut && TEAMILY_PROVIDERS=claude TEAMILY_CLAUDE_ARGS='--allowedTools=Bash(./gr:*)' teamily daemon start --foreground
-# In the Teamily app, create or choose an agent running on this device (Claude). DM it or @-mention it in a group.
+# One-time: trust this folder so .claude/settings.json (allows only ./gr) applies to headless runs
+cd crewcut && claude          # accept the trust prompt, then /exit
+TEAMILY_PROVIDERS=claude teamily daemon start --foreground   # don't set TEAMILY_CLAUDE_ARGS: it breaks the ACP handshake
+# In Teamily: Chat → + → Create Local Agent → runs on Claude Code (this Mac). DM it or @-mention it in a group.
 ```
 
 Try it in chat: *"Make a film: a retired astronaut runs a noodle bar on a rainy space station and gets one last visitor from Earth."* → frames appear → *"redo 2: make it night, neon reflections"* → *"approve"* → the final film link arrives about 4 minutes later.

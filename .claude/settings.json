@@ -1,11 +1,8 @@
 {
-  "permissions": {
-    "allow": [
-      "Bash(npm run -s gr:*)",
-      "Bash(npm run gr:*)",
-
-  "Bash(npm run -s gr -- *)",
-      "Bash(npm run gr -- *)"
-    ]
+    "permissions": {
+      "allow": [
+        "Bash(./gr:*)",
+        "Bash(./gr *)"
+      ]
+    }
   }
-}
